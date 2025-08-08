@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Submit Message</title>
+</head>
+<body>
+  <h1>Enter your message</h1>
+  <form method="post">
+    <input type="text" name="message" required />
+    <input type="submit" value="Submit" />
+  </form>
+
+  <h2>Last 20 Messages</h2>
+  {% if messages %}
+    <ul>
+      {% for msg, date, time in messages %}
+        <li><strong>{{ date }} {{ time }}:</strong> {{ msg }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No messages yet.</p>
+  {% endif %}
+</body>
+</html>

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ha-app-config-map
+data:
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: "123"
+  POSTGRES_DB: ha-app-db
+  DATABASE_URL: postgresql://admin:123@ha-app-db-service.default:5432/ha-app-db

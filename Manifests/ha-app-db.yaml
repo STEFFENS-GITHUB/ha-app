@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ha-app-db-deployment
+spec:
+  selector:
+    matchLabels:
+      app: ha-app-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ha-app-db
+    spec:
+      containers:
+        - name: ha-app-db
+          image: postgres:latest
+          env:
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_PASSWORD
+              value: "123"
+            - name: POSTGRES_DB
+              value: ha-app-db
+          volumeMounts:
+            - name: init-sql
+              mountPath: /docker-entrypoint-initdb.d/init.sql
+      volumes:
+        - name: init-sql
+          persistentVolumeClaim:
+            claimName: host-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ha-app-db-service
+spec:
+  selector:
+    app: ha-app-db
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432

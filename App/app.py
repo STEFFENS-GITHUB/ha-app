@@ -1,10 +1,19 @@
 from flask import Flask, render_template, request, redirect, jsonify
+from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 import psycopg2
 from datetime import datetime
 import os
 
 app = Flask(__name__)
 DB_CONN = DB_CONN = os.environ.get("DATABASE_URL")
+messages_posted_total = Counter(
+    "app_messages_posted_total",
+    "Total number of messages posted"
+)
+
+@app.route("/metrics")
+def metrics():
+    return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
 def get_db_connection():
     conn = psycopg2.connect(DB_CONN)
@@ -24,6 +33,7 @@ def index():
         conn.commit()
         cur.close()
         conn.close()
+        messages_posted_total.inc()
         return redirect("/")
 
     # For GET, fetch last 20 messages

@@ -1,0 +1,8 @@
+groups:
+  - name: Alerts
+    rules:
+    - alert: Node Exporter Status
+      expr: up{job="prom_host"} == 0
+      annotations:
+        summary: "{{ $labels.instance }} is down"
+        description: "This is a base description"

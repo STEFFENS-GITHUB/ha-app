@@ -25,10 +25,15 @@ spec:
           volumeMounts:
             - name: init-sql
               mountPath: /docker-entrypoint-initdb.d/init.sql
+            - name: data
+              mountPath: /var/lib/postgresql/data
       volumes:
         - name: init-sql
           persistentVolumeClaim:
-            claimName: host-pv-claim
+            claimName: ha-app-init-sql-db-pvc
+        - name: data
+          persistentVolumeClaim:
+            claimName: ha-app-db-pvc
 ---
 apiVersion: v1
 kind: Service

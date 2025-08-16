@@ -1,0 +1,15 @@
+global:
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'jimmyneutron123abc5000@gmail.com'
+  smtp_auth_username: 'jimmyneutron123abc5000@gmail.com'
+  smtp_auth_password: 'yzcd smap wlcl bxqq'
+  smtp_require_tls: true
+
+route:
+  receiver: 'main-receiver'
+
+receivers:
+  - name: 'main-receiver'
+    email_configs:
+      - to: 'vierrasicefuse@gmail.com'
+        send_resolved: true

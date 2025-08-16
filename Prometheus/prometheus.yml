@@ -1,0 +1,29 @@
+# Global configuration
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  # Scrape timeout is set to global default (10s)
+
+# Alertmanager config
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+       - alertmanager:9093
+
+rule_files:
+  - /etc/prometheus/rules/alerts.yml
+
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['172.16.0.50:9090']
+    
+  - job_name: 'python-app'
+    static_configs:
+      - targets: ['172.16.0.50:5000']
+  
+  - job_name: 'prom_host'
+    static_configs:
+      - targets: ['172.16.0.50:9100']

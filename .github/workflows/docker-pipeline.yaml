@@ -1,0 +1,22 @@
+name: Flask-App Docker Image Pipeline
+on: push
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Login to Dockerhub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PAT }}
+    
+      - name: Build and push Docker Image
+        uses: docker/build-push-action@v6
+        with: 
+          context: ./Flask-App
+          file: ./Flask-App/Dockerfile
+          push: true
+          tags: steffenp123/ha-app:latest
